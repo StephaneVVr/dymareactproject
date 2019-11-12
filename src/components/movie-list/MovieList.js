@@ -5,6 +5,10 @@ import _ from 'lodash'
 
 export default class MovieList extends Component {
 
+  componentDidMount = () => {
+    console.log(this.props)
+  }
+
   renderMovie = () => {
     const { movie, updateSelectedMovie } = this.props
 
@@ -12,7 +16,7 @@ export default class MovieList extends Component {
       return (
       <Card.Group>
         {movie.map((movie, index) => (
-            <MovieElement key={index} movie={movie} updateSelectedMovie={updateSelectedMovie} />
+            <MovieElement key={index} movie={movie} updateSelectedMovie={ () => {updateSelectedMovie(index)}} />
           ))}
       </Card.Group>
       )
