@@ -53,7 +53,7 @@ class App extends Component {
         <MovieDetails movie={movies[selectedMovie]} />
       </Grid.Column>
       </Grid>
-      </>
+    </>
   );
   }
 }
