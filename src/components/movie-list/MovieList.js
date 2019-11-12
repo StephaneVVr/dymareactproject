@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import MovieElement from "./MovieElement";
+import { Card } from "semantic-ui-react";
 
 export default class MovieList extends Component {
   render() {
     return (
-      <div className="w-75 d-flex flex-row flex-wrap align-content-start">
-        <MovieElement />
-        <MovieElement />
-        <MovieElement />
-        <MovieElement />
-        <MovieElement />
-        <MovieElement />
-      </div>
+      <Card.Group>
+        <MovieElement movie={this.props.movie[0]} updateSelectedMovie={this.props.updateSelectedMovie} />
+        <MovieElement movie={this.props.movie[1]} updateSelectedMovie={this.props.updateSelectedMovie} />
+        <MovieElement movie={this.props.movie[2]} updateSelectedMovie={this.props.updateSelectedMovie} />
+        <MovieElement movie={this.props.movie[0]} updateSelectedMovie={this.props.updateSelectedMovie} />
+        <MovieElement movie={this.props.movie[1]} updateSelectedMovie={this.props.updateSelectedMovie} />
+        <MovieElement movie={this.props.movie[2]} updateSelectedMovie={this.props.updateSelectedMovie} />
+      </Card.Group>
     );
   }
 }
