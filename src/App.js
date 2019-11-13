@@ -1,14 +1,21 @@
 import React, { Component } from "react";
 import { Grid } from "semantic-ui-react"
 
-import { Header, MovieDetails, MovieList } from "./components";
+import { Header, MovieDetails, MovieList, Loading } from "./components";
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      movies: [
-        {
+      movies: null,
+      selectedMovie: 0,
+      loaded: false
+    }
+
+    setTimeout( () => {
+      this.setState({
+        movies: [
+          {
           title: 'Test movie',
           img: 'https://images-na.ssl-images-amazon.com/images/I/914kjq3ecQL._SY606_.jpg',
           details: '155 min // Action, adventure',
@@ -26,9 +33,10 @@ class App extends Component {
           details: '160 min // Action, adventure, drame',
           description: 'Quo cognito Constantius ultra mortalem modum exarsit ac nequo casu idem Gallus de futuris.'
         }
-      ],
-      selectedMovie: 0
-    }
+        ],
+        loaded: true
+      })
+    }, 2000)
   }
 
   updateSelectMovie = (index) => {
@@ -42,6 +50,7 @@ class App extends Component {
   return (
     <>
       <Header />
+      { this.state.loaded ? (
       <Grid columns={2} width={16}>
         <Grid.Column width={11}>
         <MovieList movie={movies} updateSelectedMovie={this.updateSelectMovie} />
@@ -50,6 +59,9 @@ class App extends Component {
         <MovieDetails movie={movies[selectedMovie]} />
       </Grid.Column>
       </Grid>
+      ) : (
+        <Loading />
+      )}
     </>
   );
   }
