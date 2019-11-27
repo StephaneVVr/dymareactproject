@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Grid } from "semantic-ui-react"
+import { Grid } from "semantic-ui-react";
+import apiMovie from './config/api.movie';
 
 import { Header, MovieDetails, MovieList, Loading } from "./components";
 
@@ -43,6 +44,13 @@ class App extends Component {
     this.setState({
       selectedMovie: index
     })
+  }
+
+  componentDidMount() {
+    apiMovie.get('/discover/movie', {
+    })
+      .then( response => console.log(response))
+      .then( error => console.log(error));
   }
 
   render() { 
