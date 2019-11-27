@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Segment, Image } from "semantic-ui-react"
+import React, { Component } from 'react';
+import { Segment, Image } from 'semantic-ui-react'
 
 export default class MovieDetails extends Component {
   render() {

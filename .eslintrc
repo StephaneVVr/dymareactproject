@@ -1,0 +1,30 @@
+{
+    "root": true,
+    "parserOptions": {
+      "ecmaFeatures": {
+          "jsx": true
+      },
+      "ecmaVersion": 2018,
+      "sourceType": "module"
+  },
+  "rules": {
+    "indent": [
+        "error",
+        2
+    ],
+    "quotes": [
+        "error",
+        "single"
+    ],
+    "no-process-env": "off",
+    "import/no-named-as-default": "off" // for testing, we explictly export the base component (the one not enriched by redux)
+},
+    "env": {
+      "browser": true,
+      "es6": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ]
+  }
