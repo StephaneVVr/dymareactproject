@@ -6,8 +6,8 @@ export default class MovieDetails extends Component {
     var { movie } = this.props
     return (  
       <Segment>
-        <h5>{movie.title}</h5>
-        <Image src={movie.img} />
+           <h5>{movie.title}</h5>
+            <Image src={movie.img} />
         <span className='text-secondary'>{movie.details}</span>
         <span>{movie.description}</span>
       </Segment>

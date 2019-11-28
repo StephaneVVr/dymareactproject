@@ -36,10 +36,19 @@
       "last 1 safari version"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": { 
+    "* .js": ["./node_modules/.bin/ eslint - correction ”,“ git add"] 
+  }, 
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.1",
     "eslint-plugin-react": "^7.16.0",
-    "husky": "^3.1.0"
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0"
   }
 }
