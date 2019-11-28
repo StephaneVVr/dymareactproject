@@ -3,7 +3,7 @@ import { Segment, Image } from 'semantic-ui-react'
 
 export default class MovieDetails extends Component {
   render() {
-    const { movie } = this.props
+    var { movie } = this.props
     return (  
       <Segment>
         <h5>{movie.title}</h5>
