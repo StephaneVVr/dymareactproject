@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import MovieElement from './MovieElement';
 import { Card } from 'semantic-ui-react';
-import _ from 'lodash'
+import _ from 'lodash';
+import PropTypes from 'prop-types'; 
 
 export default class MovieList extends Component {
 
@@ -30,4 +31,9 @@ export default class MovieList extends Component {
       </>
     );
   }
+}
+
+MovieList.propTypes = {
+  movie: PropTypes.array,
+  updateSelectedMovie: PropTypes.func
 }

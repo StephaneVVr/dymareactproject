@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Image } from 'semantic-ui-react';
+import PropTypes from 'prop-types'; 
 
 export default class MovieElement extends Component {
 
@@ -22,3 +23,9 @@ export default class MovieElement extends Component {
     );
   }
 }
+
+MovieElement.propTypes = {
+  movie: PropTypes.object,
+  updateSelectedMovie: PropTypes.func
+}
+

@@ -38,17 +38,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run test",
+      "pre-push": "npm test"
     }
   },
-  "lint-staged": { 
-    "* .js": ["./node_modules/.bin/ eslint - correction ”,“ git add"] 
-  }, 
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.1",
-    "eslint-plugin-react": "^7.16.0",
-    "husky": "^3.1.0",
-    "lint-staged": "^9.5.0"
+    "eslint-plugin-react": "^7.17.0",
+    "husky": "^3.1.0"
   }
 }
