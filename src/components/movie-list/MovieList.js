@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import MovieElement from "./MovieElement";
-import { Card } from "semantic-ui-react";
-import _ from 'lodash'
+import React, { Component } from 'react';
+import MovieElement from './MovieElement';
+import { Card } from 'semantic-ui-react';
+import _ from 'lodash';
+import PropTypes from 'prop-types'; 
 
 export default class MovieList extends Component {
 
@@ -14,11 +15,11 @@ export default class MovieList extends Component {
 
     if (!_.isNil(movie)) {
       return (
-      <Card.Group>
-        {movie.map((movie, index) => (
+        <Card.Group>
+          {movie.map((movie, index) => (
             <MovieElement key={index} movie={movie} updateSelectedMovie={ () => {updateSelectedMovie(index)}} />
           ))}
-      </Card.Group>
+        </Card.Group>
       )
     }
   }
@@ -30,4 +31,9 @@ export default class MovieList extends Component {
       </>
     );
   }
+}
+
+MovieList.propTypes = {
+  movie: PropTypes.array,
+  updateSelectedMovie: PropTypes.func
 }

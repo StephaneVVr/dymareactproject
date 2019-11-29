@@ -7,6 +7,7 @@
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
     "npm-check": "^5.9.0",
+    "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "^3.2.0",
@@ -15,8 +16,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "npm-check -u && npm run lint",
+    "eject": "react-scripts eject",
+    "lint": "eslint --max-warnings=0 .",
+    "fix:lint": "node ./node_modules/eslint/bin/eslint src --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -32,5 +35,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test",
+      "pre-push": "npm test"
+    }
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.7.1",
+    "eslint-plugin-react": "^7.17.0",
+    "husky": "^3.1.0"
   }
 }
