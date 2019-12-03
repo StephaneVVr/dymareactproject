@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Grid } from 'semantic-ui-react';
-import apiMovie from './config/api.movie';
+import apiMovie, { apiMovieMap } from './config/api.movie';
 
-import { Header, MovieDetails, MovieList, Loading } from './components';
+import { Header, MovieDetails, MovieList, Loading, SearchBar } from './components';
 
 class App extends Component {
   constructor(props) {
@@ -25,12 +25,7 @@ class App extends Component {
     })
       .then( response => response.data.results)
       .then( moviesApi => {
-        const movies = moviesApi.map(movie => ({
-          img: 'https://image.tmdb.org/t/p/w500/' + movie.poster_path,
-          title: movie.title,
-          details: `${ movie.release_date } | ${ movie.vote_average }/10 (${ movie.vote_count })`,
-          description: movie.overview
-        }))
+        const movies = moviesApi.map(apiMovieMap)
         this.updateMovies(movies)
       })
       .catch( error => console.log(error));
@@ -48,6 +43,7 @@ class App extends Component {
     return (
       <>
         <Header />
+        <SearchBar updateMovies={ this.updateMovies }/>
         { this.state.loaded ? (
           <Grid columns={2} width={16}>
             <Grid.Column width={11}>
