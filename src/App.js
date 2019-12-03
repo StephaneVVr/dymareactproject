@@ -12,32 +12,6 @@ class App extends Component {
       selectedMovie: 0,
       loaded: false
     }
-
-    setTimeout( () => {
-      this.setState({
-        movies: [
-          {
-            title: 'Test movie',
-            img: 'https://images-na.ssl-images-amazon.com/images/I/914kjq3ecQL._SY606_.jpg',
-            details: '155 min // Action, adventure',
-            description: 'Quo cognito Constantius ultra mortalem modum exarsit ac nequo casu idem Gallus de futuris.'
-          },
-          {
-            title: 'Test movie 002',
-            img: 'https://images-na.ssl-images-amazon.com/images/I/510P76z5sdL._SY355_.jpg',
-            details: '160 min // Action, adventure, drame',
-            description: 'Quo cognito Constantius ultra mortalem modum exarsit ac nequo casu idem Gallus de futuris.'
-          },
-          {
-            title: 'Test movie 003',
-            img: 'https://media.senscritique.com/media/000009573873/source_big/The_Big_Bang_Theory.jpg',
-            details: '160 min // Action, adventure, drame',
-            description: 'Quo cognito Constantius ultra mortalem modum exarsit ac nequo casu idem Gallus de futuris.'
-          }
-        ],
-        loaded: true
-      })
-    }, 2000)
   }
 
   updateSelectMovie = (index) => {
@@ -49,8 +23,24 @@ class App extends Component {
   componentDidMount() {
     apiMovie.get('/discover/movie', {
     })
-      .then( response => console.log(response))
-      .then( error => console.log(error));
+      .then( response => response.data.results)
+      .then( moviesApi => {
+        const movies = moviesApi.map(movie => ({
+          img: 'https://image.tmdb.org/t/p/w500/' + movie.poster_path,
+          title: movie.title,
+          details: `${ movie.release_date } | ${ movie.vote_average }/10 (${ movie.vote_count })`,
+          description: movie.overview
+        }))
+        this.updateMovies(movies)
+      })
+      .catch( error => console.log(error));
+  }
+
+  updateMovies = (movies) => {
+    this.setState({
+      movies,
+      loaded: true
+    })
   }
 
   render() { 
