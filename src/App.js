@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react';
+import Films from './features/movies/Films'
 import apiMovie, { apiMovieMap } from './config/api.movie';
 
-import { Header, MovieDetails, MovieList, Loading, SearchBar } from './components';
+import { Header } from './components';
 
 class App extends Component {
   constructor(props) {
@@ -38,24 +38,18 @@ class App extends Component {
     })
   }
 
-  render() { 
-    const { movies, selectedMovie } = this.state
+  render() {
+    const { loaded, movies, selectedMovie } = this.state
     return (
       <>
         <Header />
-        <SearchBar updateMovies={ this.updateMovies }/>
-        { this.state.loaded ? (
-          <Grid columns={2} width={16}>
-            <Grid.Column width={11}>
-              <MovieList movie={movies} updateSelectedMovie={this.updateSelectMovie} />
-            </Grid.Column>
-            <Grid.Column width={5} stretched>
-              <MovieDetails movie={movies[selectedMovie]} />
-            </Grid.Column>
-          </Grid>
-        ) : (
-          <Loading />
-        )}
+        <Films 
+          loaded={ loaded }
+          updateMovies={ this.updateMovies }
+          updateSelectMovie={ this.updateSelectMovie }
+          movies={ movies }
+          selectedMovie={ selectedMovie }
+        />
       </>
     );
   }

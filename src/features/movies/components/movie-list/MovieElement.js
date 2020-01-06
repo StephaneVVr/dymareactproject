@@ -11,7 +11,7 @@ export default class MovieElement extends Component {
   render() {
     const { movie } = this.props
     return (
-      <Card color='blue' onMouseEnter={this.mouseEnter}>
+      <Card color='blue' onClick={this.mouseEnter}>
         <Image src={movie.img} />
         <Card.Content>
           <Card.Header>{movie.title}</Card.Header>
