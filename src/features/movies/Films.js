@@ -13,7 +13,11 @@ const Films = (props) => {
           <Grid.Column width={11}>
             <MovieList 
               movie={props.movies} 
-              updateSelectedMovie={props.updateSelectMovie} />
+              updateSelectedMovie={props.updateSelectMovie} 
+              bookmark={props.bookmark}
+              removeBookmark={props.removeBookmark}
+              addBookmark={props.addBookmark}
+            />
           </Grid.Column>
           <Grid.Column width={5} stretched>
             <MovieDetails movie={props.movies[props.selectedMovie]} />
@@ -31,7 +35,10 @@ Films.propTypes = {
   loaded: PropTypes.bool,
   movies: PropTypes.array,
   updateSelectMovie: PropTypes.func,
-  selectedMovie: PropTypes.number
+  selectedMovie: PropTypes.number,
+  removeBookmark: PropTypes.func,
+  addBookmark: PropTypes.func,
+  bookmark: PropTypes.array
 };
 
 export default Films;

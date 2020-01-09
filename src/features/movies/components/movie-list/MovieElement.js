@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Image } from 'semantic-ui-react';
+import { Card, Image, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types'; 
 
 export default class MovieElement extends Component {
@@ -9,7 +9,7 @@ export default class MovieElement extends Component {
   }
 
   render() {
-    const { movie } = this.props
+    const { movie, isBookmark, removeBookmark, addBookmark } = this.props
     return (
       <Card color='blue' onClick={this.mouseEnter}>
         <Image src={movie.img} />
@@ -19,6 +19,21 @@ export default class MovieElement extends Component {
             {movie.details}
           </Card.Description>
         </Card.Content>
+        <Card.Content>
+          { isBookmark ? (
+            <Button 
+              color="red"
+              onClick={ () => {removeBookmark(movie.title)}}>
+              Remove
+            </Button>
+          ) : (
+            <Button 
+              color="green"
+              onClick={ () => {addBookmark(movie.title)}}>
+              Add
+            </Button>
+          )}
+        </Card.Content>
       </Card>
     );
   }
@@ -26,6 +41,9 @@ export default class MovieElement extends Component {
 
 MovieElement.propTypes = {
   movie: PropTypes.object,
-  updateSelectedMovie: PropTypes.func
+  updateSelectedMovie: PropTypes.func,
+  removeBookmark: PropTypes.func,
+  addBookmark: PropTypes.func,
+  isBookmark: PropTypes.bool
 }
 
