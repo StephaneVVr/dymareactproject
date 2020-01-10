@@ -27,7 +27,7 @@ export default class BookmarkElement extends Component {
 }
 
 BookmarkElement.propTypes = {
-  bookmark: PropTypes.array,
+  bookmark: PropTypes.object,
   removeBookmark: PropTypes.func,
 }
 

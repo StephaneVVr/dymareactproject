@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import Films from './features/movies/Films';
 import Bookmark from './features/bookmark/Bookmark';
 import apiMovie, { apiMovieMap } from './config/api.movie';
+import apiFirebase from './config/api.firebase';
 import { Header } from './components';
 
 class App extends Component {
@@ -13,7 +14,7 @@ class App extends Component {
       movies: null,
       selectedMovie: 0,
       loaded: false,
-      bookmark: []
+      bookmark: null
     }
   }
 
@@ -32,31 +33,54 @@ class App extends Component {
         this.updateMovies(movies)
       })
       .catch( error => console.log(error));
+
+    apiFirebase.get('bookmark.json')
+      .then( response => {
+        let bookmark = response.data ? response.data : [];
+        this.updateBookmark(bookmark)
+      })
   }
 
   updateMovies = (movies) => {
     this.setState({
       movies,
-      loaded: true
+      loaded: this.state.bookmark ? true : false
     })
   }
 
+  updateBookmark = (bookmark) => {
+    this.setState({
+      bookmark,
+      loaded: this.state.movies ? true : false
+    })
+  }
+
+  
   addBookmark = (title) => {
     const bookmark = this.state.bookmark.slice();
     const movie = this.state.movies.find( m => m.title === title );
     bookmark.push(movie);
     this.setState({
       bookmark
+    }, () => {    
+      this.saveBookmark(); 
     })
   }
-
+  
   removeBookmark = (title) => {
     const bookmark = this.state.bookmark.slice();
     const index = this.state.bookmark.findIndex( b => b.title === title );
     bookmark.splice(index, 1);
     this.setState({
       bookmark
+    }, () => {    
+      this.saveBookmark(); 
     })
+  }
+  
+  saveBookmark = () => {
+    const { bookmark } = this.state;
+    apiFirebase.put('bookmark.json', bookmark);
   }
 
   render() {
@@ -76,14 +100,16 @@ class App extends Component {
                 selectedMovie={ selectedMovie }
                 addBookmark= { this.addBookmark }
                 removeBookmark={ this.removeBookmark }
-                bookmark={ bookmark.map( b => b.title ) }
+                bookmark={ bookmark }
               />
             )
           }}/>
-          <Route path="/favoris" render={ () => {
+          <Route path="/favoris" render={ (props) => {
             return (
               <Bookmark
-                bookmark={ this.state.bookmark }
+                { ...props }
+                loaded={ loaded }
+                bookmark={ bookmark }
                 removeBookmark={ this.removeBookmark }
               />
             )

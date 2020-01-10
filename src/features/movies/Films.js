@@ -14,7 +14,7 @@ const Films = (props) => {
             <MovieList 
               movie={props.movies} 
               updateSelectedMovie={props.updateSelectMovie} 
-              bookmark={props.bookmark}
+              bookmark={props.bookmark.map( b => b.title )}
               removeBookmark={props.removeBookmark}
               addBookmark={props.addBookmark}
             />
