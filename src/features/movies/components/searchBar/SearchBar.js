@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Formik } from 'formik'
 
-import apiMovie, { apiMovieMap } from '../../config/api.movie'
+import apiMovie, { apiMovieMap } from '../../../../config/api.movie'
 
 class SearchBar extends Component {
   constructor(props) {

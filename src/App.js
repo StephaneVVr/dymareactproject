@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react';
-import apiMovie, { apiMovieMap } from './config/api.movie';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'; 
 
-import { Header, MovieDetails, MovieList, Loading, SearchBar } from './components';
+import Films from './features/movies/Films';
+import Bookmark from './features/bookmark/Bookmark';
+import apiMovie, { apiMovieMap } from './config/api.movie';
+import apiFirebase from './config/api.firebase';
+import { Header } from './components';
 
 class App extends Component {
   constructor(props) {
@@ -10,7 +13,8 @@ class App extends Component {
     this.state = {
       movies: null,
       selectedMovie: 0,
-      loaded: false
+      loaded: false,
+      bookmark: null
     }
   }
 
@@ -29,34 +33,90 @@ class App extends Component {
         this.updateMovies(movies)
       })
       .catch( error => console.log(error));
+
+    apiFirebase.get('bookmark.json')
+      .then( response => {
+        let bookmark = response.data ? response.data : [];
+        this.updateBookmark(bookmark)
+      })
   }
 
   updateMovies = (movies) => {
     this.setState({
       movies,
-      loaded: true
+      loaded: this.state.bookmark ? true : false
     })
   }
 
-  render() { 
-    const { movies, selectedMovie } = this.state
+  updateBookmark = (bookmark) => {
+    this.setState({
+      bookmark,
+      loaded: this.state.movies ? true : false
+    })
+  }
+
+  
+  addBookmark = (title) => {
+    const bookmark = this.state.bookmark.slice();
+    const movie = this.state.movies.find( m => m.title === title );
+    bookmark.push(movie);
+    this.setState({
+      bookmark
+    }, () => {    
+      this.saveBookmark(); 
+    })
+  }
+  
+  removeBookmark = (title) => {
+    const bookmark = this.state.bookmark.slice();
+    const index = this.state.bookmark.findIndex( b => b.title === title );
+    bookmark.splice(index, 1);
+    this.setState({
+      bookmark
+    }, () => {    
+      this.saveBookmark(); 
+    })
+  }
+  
+  saveBookmark = () => {
+    const { bookmark } = this.state;
+    apiFirebase.put('bookmark.json', bookmark);
+  }
+
+  render() {
+    const { loaded, movies, selectedMovie, bookmark } = this.state
     return (
-      <>
+      <Router>
         <Header />
-        <SearchBar updateMovies={ this.updateMovies }/>
-        { this.state.loaded ? (
-          <Grid columns={2} width={16}>
-            <Grid.Column width={11}>
-              <MovieList movie={movies} updateSelectedMovie={this.updateSelectMovie} />
-            </Grid.Column>
-            <Grid.Column width={5} stretched>
-              <MovieDetails movie={movies[selectedMovie]} />
-            </Grid.Column>
-          </Grid>
-        ) : (
-          <Loading />
-        )}
-      </>
+        <Switch>
+          <Route path="/films" render={ (props) => { 
+            return (
+              <Films 
+                { ...props }
+                loaded={ loaded }
+                updateMovies={ this.updateMovies }
+                updateSelectMovie={ this.updateSelectMovie }
+                movies={ movies }
+                selectedMovie={ selectedMovie }
+                addBookmark= { this.addBookmark }
+                removeBookmark={ this.removeBookmark }
+                bookmark={ bookmark }
+              />
+            )
+          }}/>
+          <Route path="/favoris" render={ (props) => {
+            return (
+              <Bookmark
+                { ...props }
+                loaded={ loaded }
+                bookmark={ bookmark }
+                removeBookmark={ this.removeBookmark }
+              />
+            )
+          }} />
+          <Redirect to="/films" />
+        </Switch>
+      </Router>
     );
   }
 }
